@@ -12,7 +12,10 @@ class UserWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor(element){
-
+    if (!element) {
+      throw new Error('Invalid element (public/ui/widgets/UserWidget:constructor)');
+    }
+    this.element = element;
   }
 
   /**
@@ -23,6 +26,9 @@ class UserWidget {
    * авторизованного пользователя
    * */
   update(){
-
+    this.user = User.current()
+    if (this.user) {
+      this.element.querySelector('.user-name').textContent = this.user.name;
+    }
   }
 }
