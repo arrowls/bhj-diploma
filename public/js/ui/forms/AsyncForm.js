@@ -45,6 +45,7 @@ class AsyncForm {
         [...this.element.querySelectorAll('input')].forEach(input => {
             dataObject[input.name] = input.value
         })
+        dataObject.account_id = this.element.querySelector('select')?.value;
         return dataObject;
     }
 

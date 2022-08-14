@@ -103,8 +103,7 @@ class TransactionsPage {
             }
         });
         Transaction.list(options, (err, response) => {
-            if (true) {
-                console.log(response)
+            if (response.success) {
                 this.renderTransactions(response.data);
             }
         });
@@ -133,7 +132,7 @@ class TransactionsPage {
      * в формат «10 марта 2019 г. в 03:20»
      * */
     formatDate(dateString) {
-        const [date, time] = dateString.split(' ');
+        const [date, time] = dateString.split('T');
         const monthMap = {
             '01': 'января',
             '02': 'февраля',
