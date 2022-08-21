@@ -39,8 +39,9 @@ class TransactionsPage {
             if (button?.classList.contains('remove-account')) {
                 this.removeAccount();
             }
-            button?.classList.contains('transaction__remove') &&
+            if (button?.classList.contains('transaction__remove')) {
                 this.removeTransaction(button.dataset.id);
+            }
         });
     }
 
@@ -75,15 +76,14 @@ class TransactionsPage {
      * По удалению транзакции вызовите метод App.update(),
      * либо обновляйте текущую страницу (метод update) и виджет со счетами
      * */
-     removeTransaction(id) {
-        if (confirm("Вы действительно хотите удалить эту транзакцию?")) {
+    removeTransaction(id) {
+        if (confirm('Вы действительно хотите удалить эту транзакцию?')) {
             Transaction.remove(id, (err, response) => {
                 if (response.success) {
                     App.update();
                 }
             });
         }
-
     }
 
     /**
@@ -98,14 +98,16 @@ class TransactionsPage {
         }
         this.lastOptions = options;
         Account.get(options.account_id, (err, response) => {
-            if (response.success) {
-                this.renderTitle(response.data.name);
+            if (!response.success || err) {
+                return;
             }
+            this.renderTitle(response.data.name);
         });
         Transaction.list(options, (err, response) => {
-            if (response.success) {
-                this.renderTransactions(response.data);
+            if (!response.success || err) {
+                return;
             }
+            this.renderTransactions(response.data);
         });
     }
 
@@ -193,7 +195,7 @@ class TransactionsPage {
     renderTransactions(data) {
         const content = this.element.querySelector('.content');
         content.innerHTML = '';
-        data.forEach(item => {
+        data.forEach((item) => {
             content.innerHTML += this.getTransactionHTML(item);
         });
     }

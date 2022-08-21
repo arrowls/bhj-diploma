@@ -91,7 +91,7 @@ class AccountsWidget {
         if (this.activeAccountID) {
             element.parentElement
                 .querySelector(`.account[data-id="${this.activeAccountID}"]`)
-                .classList.remove('active');
+                ?.classList.remove('active');
         }
         element.classList.add('active');
         this.activeAccountID = element.dataset.id;

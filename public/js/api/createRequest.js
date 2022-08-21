@@ -4,7 +4,7 @@
  * */
 const createRequest = (options = {}) => {
     const xhr = new XMLHttpRequest();
-    xhr.addEventListener('error', (err) => options.callback(err, null));
+    xhr.addEventListener('error', (err) => options.callback(err, {}));
     xhr.addEventListener('readystatechange', () => {
         if (xhr.readyState == 4) {
             options.callback(null, JSON.parse(xhr.responseText));

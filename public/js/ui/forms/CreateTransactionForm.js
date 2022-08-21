@@ -18,7 +18,7 @@ class CreateTransactionForm extends AsyncForm {
      * */
     renderAccountsList() {
         Account.list(User.current(), (err, response) => {
-            if (!response.success) {
+            if (err || !response.success) {
                 return;
             }
             const select = this.element.querySelector('select');
@@ -37,11 +37,12 @@ class CreateTransactionForm extends AsyncForm {
      * */
      onSubmit(data) {
       Transaction.create(data, (err, response) => {
-          if (response.success) {
-              new Modal(this.element.closest('.modal')).close();
+          if (!response.success || err) {
+              return;
+          }
+          new Modal(this.element.closest('.modal')).close();
               this.element.reset();
               App.update();
-          }
       });
   }
 }
